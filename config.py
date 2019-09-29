@@ -3,6 +3,8 @@ from os.path import dirname, abspath, join
 
 import yaml
 
+from logger import log
+
 APPLICATION_CONFIG_PATH = join(dirname(abspath(__file__)), 'application.yml')
 
 
@@ -18,11 +20,8 @@ class Config:
     def clean_data_audio_dir(self):
         return join(self.clean_data_dir(), 'audio')
 
-    def accuracy_dir(self):
-        return join(self.data_dir(), 'accuracy')
-
     def provider_accuracy_dir(self):
-        return join(self.accuracy_dir(), 'microsoft_custom_speech')
+        return join(self.data_dir(), 'microsoft_custom_speech')
 
     def microsoft_speech_subscription_key(self):
         return self._get_var('MICROSOFT_SPEECH_SUBSCRIPTION_KEY')
@@ -38,8 +37,9 @@ class Config:
             try:
                 with open(APPLICATION_CONFIG_PATH, 'r') as stream:
                     self._config_file = yaml.safe_load(stream)
-                    print(self._config_file)
+                    log.info("Config Loaded")
             except FileNotFoundError:
+                log.info("Config not found, using ENV Var")
                 return environ.get(var)
         return environ.get(var) or self._config_file[var]
 

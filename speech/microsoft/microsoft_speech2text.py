@@ -2,12 +2,13 @@ import json
 
 import requests
 
-from config import Config
+from config import config
+
 
 def transcribe_microsoft_custom_speech(audio_file_path):
     api_url = 'https://westeurope.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=en-CA'
     headers = {
-        'Ocp-Apim-Subscription-Key': Config.microsoft_speech_subscription_key(),
+        'Ocp-Apim-Subscription-Key': config.microsoft_speech_subscription_key(),
         'Content-Type': 'audio/wav; codecs=audio/pcm;'
     }
 

@@ -3,7 +3,7 @@ from os.path import dirname, abspath, join
 
 import yaml
 
-from logger import log
+from util.logger import log
 
 
 class Config:

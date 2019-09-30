@@ -2,8 +2,8 @@ import json
 
 import requests
 
-from config import config
-from logger import log
+from util.config import config
+from util.logger import log
 
 REGION = 'westeurope'
 MODE = 'interactive'
@@ -11,7 +11,7 @@ LANG = 'en-US'
 FORMAT = 'detailed'
 
 
-def transcribe_microsoft_custom_speech(audio_file_path):
+def speech_to_text(audio_file_path):
     api_url = 'https://{0}.stt.speech.microsoft.com/speech/recognition/' \
               '{1}/cognitiveservices/v1?language={2}&format={3}'.format(REGION, MODE, LANG, FORMAT)
     headers = {

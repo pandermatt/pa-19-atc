@@ -2,7 +2,7 @@ import re
 
 from text2digits import text2digits
 
-from text_analysis.keyword_extraction.hidden_print import HiddenPrints
+from util.print_disable import PrintDisabled
 
 REPLACE_MAP = {
     'alfa': 'A',
@@ -45,8 +45,8 @@ REPLACE_MAP = {
 }
 
 
-def apply_replace_map(text):
-    with HiddenPrints():
+def clean_up_text(text):
+    with PrintDisabled():
         t2d = text2digits.Text2Digits()
         text = t2d.convert(text)
 
@@ -80,3 +80,7 @@ def apply_replace_map(text):
     text = re.sub(r'(?<=\d)(\s+)([A-Z]+)', r'\2', text)
 
     return text.strip()
+
+
+if __name__ == '__main__':
+    print(clean_up_text('bonjour topswiss four five seven eight climb to flight level three one zero'))

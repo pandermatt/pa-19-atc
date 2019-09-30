@@ -17,4 +17,5 @@ def keyword_extraction(text):
 
 
 if __name__ == '__main__':
-    keyword_extraction("topswiss four five seven eight climb to flight level three one zero")
+    keyword_extraction("Swiss 660 Romeo contact Marseille want to 5 decimal 85 goodbye")
+    keyword_extraction("bonjour topswiss four five seven eight climb to flight level three one zero")

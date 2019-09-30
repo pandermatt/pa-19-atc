@@ -2,7 +2,7 @@ import json
 
 import requests
 
-from util.config import config
+from config import config
 from util.logger import log
 
 REGION = 'westeurope'

@@ -18,6 +18,7 @@ class Config:
         return join(self.data_dir(), 'clean')
 
     def clean_data_audio_dir(self):
+        print(self.clean_data_dir())
         return join(self.clean_data_dir(), 'audio')
 
     def provider_accuracy_dir(self):

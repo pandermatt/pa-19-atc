@@ -2,7 +2,7 @@ import glob
 from os import makedirs
 from os.path import exists, join, basename
 
-from util.config import config
+from config import config
 from util.logger import log
 from speech.speech_to_text import speech_to_text
 

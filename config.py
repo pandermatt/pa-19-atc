@@ -5,14 +5,14 @@ import yaml
 
 from logger import log
 
-APPLICATION_CONFIG_PATH = join(dirname(abspath(__file__)), 'application.yml')
-
 
 class Config:
+    _root_dir = dirname(abspath(__file__))
+    _application_config_path = join(_root_dir, 'application.yml')
     _config_file = None
 
     def data_dir(self):
-        return abspath(join(dirname(abspath(__file__)), 'data'))
+        return abspath(join(self._root_dir, 'data'))
 
     def clean_data_dir(self):
         return join(self.data_dir(), 'clean')
@@ -35,7 +35,7 @@ class Config:
     def _get_var(self, var):
         if not self._config_file:
             try:
-                with open(APPLICATION_CONFIG_PATH, 'r') as stream:
+                with open(self._application_config_path, 'r') as stream:
                     self._config_file = yaml.safe_load(stream)
                     log.info("Config Loaded")
             except FileNotFoundError:

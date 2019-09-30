@@ -1,7 +1,7 @@
 import glob
 from os.path import join
 
-from util.config import config
+from config import config
 from language_recognition.recognition_to_text import analyse_text
 from util.logger import log
 from speech.speech_to_text import speech_to_text

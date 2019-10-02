@@ -1,5 +1,4 @@
 """
-Based on code take from Bachelors Thesis by Leandro Kuster and Emanuele Mazzotta
 Author: Pascal Andermatt and Jennifer Schürch
 """
 
@@ -10,34 +9,36 @@ import requests
 from config import config
 from util.logger import log
 
-REGION = 'westeurope'
-MODE = 'interactive'
-LANG = 'en-US'
-FORMAT = 'detailed'
-
 
 def speech_to_text(audio_file_path):
-    api_url = 'https://{0}.stt.speech.microsoft.com/speech/recognition/' \
-              '{1}/cognitiveservices/v1?language={2}&format={3}'.format(REGION, MODE, LANG, FORMAT)
-    headers = {
-        'Ocp-Apim-Subscription-Key': config.microsoft_speech_subscription_key(),
-        'Content-Type': 'audio/wav; codecs=audio/pcm;'
-    }
-
-    response = requests.post(
-        api_url,
-        data=open(audio_file_path, 'rb'),
-        headers=headers
-    )
-
-    if not response.ok:
-        log.warning(f'Response code {response.status_code} for {audio_file_path}')
-        return
-
-    data = json.loads(response.content)
+    data = _send_request(audio_file_path)
     transcript = data.get('NBest')[0].get('Display')
-    if transcript == '' or data.get('RecognitionStatus') != 'Success':
+
+    if data.get('RecognitionStatus') != 'Success':
         log.warning(f'{audio_file_path} has an empty transcript')
         return
+
     log.info("Transcript: %s" % transcript)
     return transcript
+
+
+def _send_request(audio_file_path):
+    try:
+        response = requests.post(
+            url="https://westeurope.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1",
+            params={
+                "format": "detailed",
+                "cid": config.microsoft_speech_endpoint_id(),
+            },
+            headers={
+                "Ocp-Apim-Subscription-Key": config.microsoft_speech_subscription_key(),
+                "Content-Type": "audio/wav; codecs=audio/pcm;",
+            },
+            data=open(audio_file_path, 'rb'),
+        )
+
+        log.debug(f'Response HTTP Status Code: {response.status_code}')
+        log.debug(f'Response HTTP Response Body: {response.content}')
+        return json.loads(response.content)
+    except requests.exceptions.RequestException:
+        log.warning('HTTP Request failed')

@@ -30,6 +30,9 @@ class Config:
     def microsoft_speech_subscription_key(self):
         return self._get_var('MICROSOFT_SPEECH_SUBSCRIPTION_KEY')
 
+    def microsoft_speech_endpoint_id(self):
+        return self._get_var('MICROSOFT_SPEECH_ENDPOINT_ID')
+
     def microsoft_luis_app_key(self):
         return self._get_var('MICROSOFT_LUIS_APP_KEY')
 

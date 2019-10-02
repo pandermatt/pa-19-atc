@@ -1,3 +1,7 @@
+"""
+Author: Pascal Andermatt and Jennifer Schürch
+"""
+
 from os import environ
 from os.path import dirname, abspath, join
 
@@ -18,7 +22,6 @@ class Config:
         return join(self.data_dir(), 'clean')
 
     def clean_data_audio_dir(self):
-        print(self.clean_data_dir())
         return join(self.clean_data_dir(), 'audio')
 
     def provider_accuracy_dir(self):
@@ -42,7 +45,11 @@ class Config:
             except FileNotFoundError:
                 log.info("Config not found, using ENV Var")
                 return environ.get(var)
-        return environ.get(var) or self._config_file[var]
+        try:
+            return environ.get(var) or self._config_file[var]
+        except KeyError:
+            log.warning('Can not find ENV var: %s' % var)
+            exit(1)
 
 
 config = Config()

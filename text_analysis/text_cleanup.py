@@ -1,3 +1,7 @@
+"""
+Author: Leandro Kuster and Emanuele Mazzotta
+"""
+
 import re
 
 from text2digits import text2digits

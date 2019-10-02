@@ -3,4 +3,5 @@ application.yml
 __pycache__
 
 *.wav
+*.txt
 data/microsoft_custom_speech

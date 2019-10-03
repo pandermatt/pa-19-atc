@@ -12,12 +12,12 @@ from util.logger import log
 
 def speech_to_text(audio_file_path):
     data = _send_request(audio_file_path)
-    transcript = data.get('NBest')[0].get('Display')
 
     if data.get('RecognitionStatus') != 'Success':
         log.warning(f'{audio_file_path} has an empty transcript')
         return
 
+    transcript = data.get('NBest')[0].get('Display')
     log.info("Transcript: %s" % transcript)
     return transcript
 

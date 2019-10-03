@@ -4,9 +4,7 @@ Author: Leandro Kuster and Emanuele Mazzotta
 
 import re
 
-from text2digits import text2digits
-
-from util.print_disable import PrintDisabled
+from text2digits.text2digits import Text2Digits
 
 REPLACE_MAP = {
     'alfa': 'A',
@@ -50,9 +48,8 @@ REPLACE_MAP = {
 
 
 def clean_up_text(text):
-    with PrintDisabled():
-        t2d = text2digits.Text2Digits()
-        text = t2d.convert(text)
+    t2n = Text2Digits(similarity_threshold=0.7)
+    text = t2n.convert(text, spell_check=True)
 
     text = text.lower()
 
@@ -83,8 +80,11 @@ def clean_up_text(text):
     text = re.sub(r'^([A-Z]+)(\s+)(\d+)', r'\1\3', text)
     text = re.sub(r'(?<=\d)(\s+)([A-Z]+)', r'\2', text)
 
+    text = text.replace(' decimal ', '.')
+    text = text.replace(' comma ', '.')
+
     return text.strip()
 
 
 if __name__ == '__main__':
-    print(clean_up_text('bonjour topswiss four five seven eight climb to flight level three one zero'))
+    print(clean_up_text('bonjour topswiss four five decimal seven eight climb to flight level three one zero'))

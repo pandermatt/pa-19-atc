@@ -4,4 +4,6 @@ __pycache__
 
 *.wav
 data/*.txt
+data/*/*.txt
+data/*/*/*.txt
 data/microsoft_custom_speech

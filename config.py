@@ -24,14 +24,23 @@ class Config:
     def clean_data_audio_dir(self):
         return join(self.clean_data_dir(), 'audio')
 
+    def clean_data_text_dir(self):
+        return join(self.clean_data_dir(), 'text')
+
     def test_data_dir(self):
         return join(self.data_dir(), 'test')
 
     def test_data_audio_dir(self):
         return join(self.test_data_dir(), 'audio')
 
+    def accuracy_dir(self):
+        return join(self.data_dir(), 'accuracy')
+
     def provider_accuracy_dir(self):
         return join(self.data_dir(), 'microsoft_custom_speech')
+
+    def provider(self):
+        return 'microsoft_custom_speech'
 
     def microsoft_speech_subscription_key(self):
         return self._get_var('MICROSOFT_SPEECH_SUBSCRIPTION_KEY')

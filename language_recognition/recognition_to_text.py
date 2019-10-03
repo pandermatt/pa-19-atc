@@ -1,6 +1,8 @@
 """
 Based on code take from Bachelors Thesis by Leandro Kuster and Emanuele Mazzotta
-Author: Pascal Andermatt and Jennifer Schürch
+
+Original authors: Leandro Kuster and Emanuele Mazzotta
+Modified by: Pascal Andermatt and Jennifer Schürch
 """
 
 import json

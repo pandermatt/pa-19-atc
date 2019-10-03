@@ -1,3 +1,7 @@
+"""
+Author: Leandro Kuster and Emanuele Mazzotta
+"""
+
 import glob
 from os import makedirs
 from os.path import exists, join, basename

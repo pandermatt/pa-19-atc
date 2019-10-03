@@ -24,6 +24,12 @@ class Config:
     def clean_data_audio_dir(self):
         return join(self.clean_data_dir(), 'audio')
 
+    def test_data_dir(self):
+        return join(self.data_dir(), 'test')
+
+    def test_data_audio_dir(self):
+        return join(self.test_data_dir(), 'audio')
+
     def provider_accuracy_dir(self):
         return join(self.data_dir(), 'microsoft_custom_speech')
 

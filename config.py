@@ -39,6 +39,9 @@ class Config:
     def provider_accuracy_dir(self):
         return join(self.data_dir(), 'microsoft_custom_speech')
 
+    def provider_accuracy_file(self):
+        return join(self.accuracy_dir(), f'{self.provider()}_accuracy.txt')
+
     def provider(self):
         return 'microsoft_custom_speech'
 

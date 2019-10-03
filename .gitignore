@@ -3,6 +3,7 @@ application.yml
 __pycache__
 
 *.wav
+*.zip
 data/*.txt
 data/*/*.txt
 data/*/*/*.txt

@@ -8,7 +8,7 @@ import glob
 import re
 from os.path import join, exists, basename
 
-from config import Config
+from config import config
 from word_error_rate.word_error_rate import word_error_rate
 
 REPLACE_MAP = {
@@ -30,20 +30,20 @@ STOP_WORDS = ['', 'ah']
 
 
 def determine_accuracy():
-    if not exists(Config.provider_accuracy_dir()):
-        print(f'Provider data does not exist: {Config.provider_accuracy_dir()}')
+    if not exists(config.provider_accuracy_dir()):
+        print(f'Provider data does not exist: {config.provider_accuracy_dir()}')
         exit(1)
 
     accuracy_info = []
-    print(f'Determining accuracy for {Config.provider()}...')
+    print(f'Determining accuracy for {config.provider()}...')
 
-    custom_files = glob.glob(join(Config.provider_accuracy_dir(), '*.txt'))
+    custom_files = glob.glob(join(config.provider_accuracy_dir(), '*.txt'))
     i = 0
     for custom_text_file_path in custom_files:
         if i % 1000 == 0:
             print(f'{i}/{len(custom_files)}')
         i += 1
-        original_text_file_path = join(Config.clean_data_text_dir(), basename(custom_text_file_path))
+        original_text_file_path = join(config.clean_data_text_dir(), basename(custom_text_file_path))
 
         original_words = extract_clean_words(open(original_text_file_path, 'r').read())
         custom_words = extract_clean_words(open(custom_text_file_path, 'r').read())
@@ -89,7 +89,7 @@ def extract_clean_words(text):
 
 # Meant for Demo purposes
 def find_5_results_per_percentage_step():
-    accuracy_file_path = join(Config.accuracy_dir(), f'{Config.provider()}_accuracy.txt')
+    accuracy_file_path = join(config.accuracy_dir(), f'{config.provider()}_accuracy.txt')
     accuracy_info = load_accuracy_info(accuracy_file_path)
 
     interesting_results = {}
@@ -100,8 +100,8 @@ def find_5_results_per_percentage_step():
         file_name = line[:line.index('\t')]
         result = float(line[line.index('\t') + 1:].replace('\n', ''))
 
-        original_text_file_path = join(Config.clean_data_text_dir(), file_name)
-        custom_text_file_path = join(Config.provider_accuracy_dir(), file_name)
+        original_text_file_path = join(config.clean_data_text_dir(), file_name)
+        custom_text_file_path = join(config.provider_accuracy_dir(), file_name)
 
         original_words = extract_clean_words(open(original_text_file_path, 'r').read())
         custom_words = extract_clean_words(open(custom_text_file_path, 'r').read())
@@ -115,7 +115,7 @@ def find_5_results_per_percentage_step():
 
 
 def write_to_accuracy_file(accuracy_info):
-    accuracy_file_path = join(Config.accuracy_dir(), f'{Config.provider()}_accuracy.txt')
+    accuracy_file_path = join(config.accuracy_dir(), f'{config.provider()}_accuracy.txt')
     open(accuracy_file_path, 'w+').writelines('\n'.join(accuracy_info))
     open(accuracy_file_path, 'a+').write('\n')
 

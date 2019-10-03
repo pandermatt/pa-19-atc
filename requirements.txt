@@ -1,0 +1,3 @@
+PyYAML
+requests
+text2digits

@@ -8,3 +8,4 @@ data/*.txt
 data/*/*.txt
 data/*/*/*.txt
 data/microsoft_custom_speech
+*.png

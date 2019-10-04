@@ -39,6 +39,10 @@ def _send_request(audio_file_path):
 
         log.debug(f'Response HTTP Status Code: {response.status_code}')
         log.debug(f'Response HTTP Response Body: {response.content}')
+
+        if response.status_code != 200:
+            log.warning(f'HTTP Request NOK ({response.status_code}), Body: {response.content}')
+
         return json.loads(response.content)
     except requests.exceptions.RequestException:
         log.warning('HTTP Request failed')

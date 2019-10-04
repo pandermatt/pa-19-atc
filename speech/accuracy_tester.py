@@ -1,14 +1,15 @@
 """
 Author: Leandro Kuster and Emanuele Mazzotta
 """
-#!/usr/bin/env python3
-# coding=utf-8
 
 import glob
 import re
 from os.path import join, exists, basename
 
+import jiwer
+
 from config import config
+from util.logger import log
 from word_error_rate.word_error_rate import word_error_rate
 
 REPLACE_MAP = {
@@ -31,17 +32,16 @@ STOP_WORDS = ['', 'ah']
 
 def determine_accuracy():
     if not exists(config.provider_accuracy_dir()):
-        print(f'Provider data does not exist: {config.provider_accuracy_dir()}')
-        exit(1)
+        log.exit(f'Provider data does not exist: {config.provider_accuracy_dir()}')
 
     accuracy_info = []
-    print(f'Determining accuracy for {config.provider()}...')
+    log.info(f'Determining accuracy for {config.provider()}...')
 
     custom_files = glob.glob(join(config.provider_accuracy_dir(), '*.txt'))
     i = 0
     for custom_text_file_path in custom_files:
         if i % 1000 == 0:
-            print(f'{i}/{len(custom_files)}')
+            log.info(f'{i}/{len(custom_files)}')
         i += 1
         original_text_file_path = join(config.clean_data_text_dir(), basename(custom_text_file_path))
 
@@ -49,7 +49,7 @@ def determine_accuracy():
         custom_words = extract_clean_words(open(custom_text_file_path, 'r').read())
 
         accuracy_info.append(f'{basename(custom_text_file_path)}\t{word_error_rate(original_words, custom_words)}')
-
+        log.info(f'{basename(custom_text_file_path)}\t{jiwer.wer(original_words, custom_words, standardize=True)}')
     return accuracy_info
 
 
@@ -57,9 +57,9 @@ def build_accuracy(accuracy_line):
     separator_index = accuracy_line.index('\t')
     eol_index = accuracy_line.index('\n')
     return f'' \
-        f'{accuracy_line[:separator_index]}' \
-        f'\t' \
-        f'{accuracy_line[separator_index + 1:eol_index]}'
+           f'{accuracy_line[:separator_index]}' \
+           f'\t' \
+           f'{accuracy_line[separator_index + 1:eol_index]}'
 
 
 def load_accuracy_info(accuracy_file_path):
@@ -94,7 +94,7 @@ def find_5_results_per_percentage_step():
 
     interesting_results = {}
 
-    print("Looking for some test data results...")
+    log.info("Looking for some test data results...")
 
     for line in accuracy_info:
         file_name = line[:line.index('\t')]
@@ -111,7 +111,7 @@ def find_5_results_per_percentage_step():
                 interesting_results.update({f'{" ".join(original_words)}\n{" ".join(custom_words)}': result})
 
     for k, v in sorted(interesting_results.items(), key=lambda x: x[1]):
-        print(f'{v}% word error rate:\n{k}\n')
+        log.info(f'{v}% word error rate:\n{k}\n')
 
 
 def write_to_accuracy_file(accuracy_info):

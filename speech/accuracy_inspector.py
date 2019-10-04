@@ -1,14 +1,13 @@
 """
 Author: Leandro Kuster and Emanuele Mazzotta
 """
-#!/usr/bin/env python3
-# coding=utf-8
 
 from os.path import join, exists
 
 import pylab
 
 from config import config
+from util.logger import log
 
 
 def plot(values):
@@ -57,8 +56,7 @@ def plot(values):
 
 def calculate_accuracy():
     if not exists(config.provider_accuracy_file()):
-        print(f'Accuracy file does not exist: {config.provider_accuracy_file()}')
-        exit(1)
+        log.exit(f'Accuracy file does not exist: {config.provider_accuracy_file()}')
 
     accuracy_content = open(config.provider_accuracy_file(), 'r+').readlines()
     accuracy_map = {}
@@ -74,10 +72,10 @@ def calculate_accuracy():
                 break
         accuracy_map[text_name] = accuracy
 
-    print(f'Total files tested: {len(accuracy_map)}')
-    print(result_distribution)
+    log.info(f'Total files tested: {len(accuracy_map)}')
+    log.info(result_distribution)
     avg_accuracy = sum(accuracy_map.values()) / len(accuracy_map)
-    print(f'Average word error rate: {avg_accuracy}')
+    log.info(f'Average word error rate: {avg_accuracy}')
     return accuracy_map
 
 

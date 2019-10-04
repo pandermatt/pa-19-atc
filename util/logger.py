@@ -13,4 +13,13 @@ def get_logger():
     return logging.getLogger(__name__)
 
 
-log = get_logger()
+def log_exit(message):
+    log.warning(message)
+    log.warning("Exiting program with code 1")
+    exit(1)
+
+
+_log = get_logger()
+_log.exit = log_exit
+
+log = _log

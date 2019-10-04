@@ -6,6 +6,7 @@ Voice to Speech for ATC
 
 - <https://github.com/pandermatt/pa-19-atc>
 - <https://github.com/pandermatt/pa-19-atc-doc>
+- Custom speech portal: <https://speech.microsoft.com/customspeech>
 
 
 ## Developing

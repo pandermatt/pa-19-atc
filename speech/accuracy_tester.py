@@ -6,8 +6,6 @@ import glob
 import re
 from os.path import join, exists, basename
 
-import jiwer
-
 from config import config
 from util.logger import log
 from word_error_rate.word_error_rate import word_error_rate
@@ -49,7 +47,6 @@ def determine_accuracy():
         custom_words = extract_clean_words(open(custom_text_file_path, 'r').read())
 
         accuracy_info.append(f'{basename(custom_text_file_path)}\t{word_error_rate(original_words, custom_words)}')
-        log.info(f'{basename(custom_text_file_path)}\t{jiwer.wer(original_words, custom_words, standardize=True)}')
     return accuracy_info
 
 

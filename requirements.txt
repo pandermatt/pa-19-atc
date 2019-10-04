@@ -1,4 +1,3 @@
-jiwer
 PyYAML
 requests
 text2digits

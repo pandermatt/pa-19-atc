@@ -69,8 +69,7 @@ class Config:
         try:
             return environ.get(var) or self._config_file[var]
         except KeyError:
-            log.warning('Can not find ENV var: %s' % var)
-            exit(1)
+            log.exit('Can not find ENV var: %s' % var)
 
 
 config = Config()

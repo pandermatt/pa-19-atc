@@ -2,12 +2,19 @@
 Author: Pascal Andermatt and Jennifer Schürch
 """
 
-from os import environ
-from os.path import dirname, abspath, join
+import os
+from os.path import dirname, abspath, join, exists
 
 import yaml
 
 from util.logger import log
+
+
+def _get_or_create(dir_path):
+    if not exists(dir_path):
+        os.makedirs(dir_path)
+        log.info("Creating: " + dir_path)
+    return dir_path
 
 
 class Config:
@@ -15,36 +22,45 @@ class Config:
     _application_config_path = join(_root_dir, 'application.yml')
     _config_file = None
 
+    #############
+    # DIRECTORY #
+    #############
     def data_dir(self):
         return abspath(join(self._root_dir, 'data'))
 
     def clean_data_dir(self):
-        return join(self.data_dir(), 'clean')
+        return _get_or_create(join(self.data_dir(), 'clean'))
 
     def clean_data_audio_dir(self):
-        return join(self.clean_data_dir(), 'audio')
+        return _get_or_create(join(self.clean_data_dir(), 'audio'))
 
     def clean_data_text_dir(self):
-        return join(self.clean_data_dir(), 'text')
+        return _get_or_create(join(self.clean_data_dir(), 'text'))
+
+    def clean_data_custom_audio_dir(self):
+        return _get_or_create(join(self.clean_data_audio_dir(), 'custom'))
 
     def test_data_dir(self):
-        return join(self.data_dir(), 'test')
+        return _get_or_create(join(self.data_dir(), 'test'))
 
     def test_data_audio_dir(self):
-        return join(self.test_data_dir(), 'audio')
+        return _get_or_create(join(self.test_data_dir(), 'audio'))
 
     def accuracy_dir(self):
-        return join(self.data_dir(), 'accuracy')
+        return _get_or_create(join(self.data_dir(), 'accuracy'))
 
     def provider_accuracy_dir(self):
-        return join(self.data_dir(), 'microsoft_custom_speech')
+        return _get_or_create(join(self.data_dir(), 'microsoft_custom_speech'))
 
     def provider_accuracy_file(self):
-        return join(self.accuracy_dir(), f'{self.provider()}_accuracy.txt')
+        return _get_or_create(join(self.accuracy_dir(), f'{self.provider()}_accuracy.txt'))
 
     def provider(self):
         return 'microsoft_custom_speech'
 
+    #############
+    # KEYS      #
+    #############
     def microsoft_speech_subscription_key(self):
         return self._get_var('MICROSOFT_SPEECH_SUBSCRIPTION_KEY')
 
@@ -65,9 +81,9 @@ class Config:
                     log.info("Config Loaded")
             except FileNotFoundError:
                 log.info("Config not found, using ENV Var")
-                return environ.get(var)
+                return os.environ.get(var)
         try:
-            return environ.get(var) or self._config_file[var]
+            return os.environ.get(var) or self._config_file[var]
         except KeyError:
             log.exit('Can not find ENV var: %s' % var)
 

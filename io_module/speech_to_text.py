@@ -12,10 +12,6 @@ from util.logger import log
 
 
 def speech_to_text_save_to_file():
-    if not exists(config.provider_accuracy_dir()):
-        makedirs(config.provider_accuracy_dir())
-        log.info("Creating Provider Accuracy Dir")
-
     for audio_file_path in glob.glob(join(config.clean_data_audio_dir(), '*.wav')):
         text_file_path = join(config.provider_accuracy_dir(),
                               basename(audio_file_path).replace('.wav', '.txt'))

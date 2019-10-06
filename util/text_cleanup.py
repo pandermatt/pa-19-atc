@@ -48,8 +48,8 @@ REPLACE_MAP = {
 
 
 def clean_up_text(text):
-    t2n = Text2Digits(similarity_threshold=0.7)
-    text = t2n.convert(text, spell_check=True)
+    t2n = Text2Digits()
+    text = t2n.convert(text)
 
     text = text.lower()
 

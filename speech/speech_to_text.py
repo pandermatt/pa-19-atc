@@ -14,6 +14,9 @@ from util.logger import log
 def speech_to_text(audio_file_path):
     data = None
     cnt = 0
+    # if data is None HTTP Request failed,
+    # The cause is probably because there is a limit of how many Request can be sent,
+    # but since it looks random we'll just try again when it happens...
     while data is None and cnt < 5:
         data = _send_request(audio_file_path)
         cnt += 1

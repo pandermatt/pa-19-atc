@@ -5,16 +5,30 @@ Author: Pascal Andermatt and Jennifer Schürch
 import json
 
 import requests
+import time
 
 from config import config
 from util.logger import log
 
 
 def speech_to_text(audio_file_path):
-    data = _send_request(audio_file_path)
+    data = None
+    cnt = 0
+    # if data is None HTTP Request failed,
+    # The cause is probably because there is a limit of how many Request can be sent,
+    # but since it looks random we'll just try again when it happens...
+    while data is None and cnt < 5:
+        data = _send_request(audio_file_path)
+        cnt += 1
+        if data is None:
+            log.warning(f'try number {cnt} failed for {audio_file_path}')
+            time.sleep(0.5)
 
+    if data is None:
+        log.warning(f'{audio_file_path} had an HTTP Request failure')
+        return
     if data.get('RecognitionStatus') != 'Success':
-        log.warning(f'{audio_file_path} has an empty transcript')
+        log.warning(f'{audio_file_path} has an empty transcript, RecognitionStatus = ' + data.get('RecognitionStatus'))
         return
 
     transcript = data.get('NBest')[0].get('Display')
@@ -42,7 +56,6 @@ def _send_request(audio_file_path):
 
         if response.status_code != 200:
             log.warning(f'HTTP Request NOK ({response.status_code}), Body: {response.content}')
-
         return json.loads(response.content)
     except requests.exceptions.RequestException:
         log.warning('HTTP Request failed')

@@ -10,7 +10,8 @@ from speech.speech_to_text import speech_to_text
 
 
 def speech_to_text_save_to_file():
-    for audio_file_path in glob.glob(join(config.clean_data_audio_dir(), '*.wav')):
+    # for audio_file_path in glob.glob(join(config.clean_data_audio_dir(), '*.wav')):
+    for audio_file_path in glob.glob(join(config.test_data_audio_dir(), '*.wav')):
         text_file_path = join(config.provider_accuracy_dir(),
                               basename(audio_file_path).replace('.wav', '.txt'))
 

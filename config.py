@@ -37,8 +37,8 @@ class Config:
     def clean_data_text_dir(self):
         return _get_or_create(join(self.clean_data_dir(), 'text'))
 
-    def clean_data_custom_audio_dir(self):
-        return _get_or_create(join(self.clean_data_audio_dir(), 'custom'))
+    def clean_data_custom_audio_dir(self, prefix=''):
+        return _get_or_create(join(self.clean_data_audio_dir(), 'custom' + prefix))
 
     def clean_data_cleaned_text_dir(self):
         return join(self.clean_data_dir(), 'cleaned_text')

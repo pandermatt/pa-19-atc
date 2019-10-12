@@ -3,12 +3,10 @@ Author: Leandro Kuster and Emanuele Mazzotta
 """
 
 import glob
-from os import makedirs
 from os.path import exists, join, basename
 
 from config import config
 from speech.speech_to_text import speech_to_text
-from util.logger import log
 
 
 def speech_to_text_save_to_file():

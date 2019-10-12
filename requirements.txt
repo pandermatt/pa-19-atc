@@ -1,3 +1,5 @@
+librosa
+numpy
 pydub
 PyYAML
 requests

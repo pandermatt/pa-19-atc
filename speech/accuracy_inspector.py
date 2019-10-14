@@ -14,7 +14,7 @@ def plot(values):
     h = sorted(values)
 
     x_max = 100
-    y_max = 1401
+    y_max = 500
     x_step = 10
     y_step = 100
 
@@ -23,7 +23,7 @@ def plot(values):
     y_label_interval = range(0, y_max + 1, y_step)
 
     x_axis_label = {
-        'de': 'Wortfehlerrate pro Transkription',
+        'de': 'Word Error Rate (WER) pro Transkription',
         'en': 'Word error rate per transcription'
     }
 
@@ -33,10 +33,7 @@ def plot(values):
     }
 
     title = {
-        'microsoft_custom_speech': f'Evaluation Microsoft Custom Speech',
-        'microsoft_un_trained': f'Evaluation Microsoft Pre-Built Model',
-        'amazon_un_trained': f'Evaluation Amazon Pre-Built Model',
-        'google_un_trained': f'Evaluation Google Pre-Built Model',
+        'microsoft_custom_speech': f'Auswertung Microsoft Custom Speech',
     }
 
     pylab.figure(num=None, figsize=(10, 7), dpi=300, facecolor='white', edgecolor='black')

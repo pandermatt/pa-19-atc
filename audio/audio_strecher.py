@@ -1,5 +1,7 @@
+import csv
 import glob
 import os
+import random
 
 import librosa
 import numpy as np
@@ -27,6 +29,8 @@ def convert_audio_files():
                 _convert_audio_with_normalisation(original_audio_file_path, speed)
 
             _convert_audio_with_noise_injection(original_audio_file_path, 0.01)
+
+            _convert_audio_with_random_speed(original_audio_file_path, random.choice(np.arange(0.7, 1.3, 0.1)))
         except:
             error_files.append(original_audio_file_path)
             log.warning(f'Could not convert {original_audio_file_path}')
@@ -50,6 +54,28 @@ def _convert_audio(audio_file_path, speed):
 
     sound = sound.set_frame_rate(16000)
     sound.export(output_path, format="wav")
+
+
+def _convert_audio_with_random_speed(audio_file_path, speed):
+    suffix = f'_random-speed'
+    file_name = _add_suffix(audio_file_path, suffix)
+    output_path = os.path.join(AUDIO_DIR(suffix), file_name)
+
+    if os.path.exists(output_path):
+        log.info(f'already exists... skipping:\t {file_name}-random-speed')
+        return
+
+    log.info(f'Convert {file_name} with random {speed}')
+    sound = AudioSegment.from_file(audio_file_path, format="wav")
+    sound = _change_pitch_and_speed(sound, speed)
+
+    sound = sound.set_frame_rate(16000)
+    sound.export(output_path, format="wav")
+
+    file = os.path.join(AUDIO_DIR(suffix), 'result_random.csv')
+    with open(file, 'a') as f:
+        writer = csv.writer(f)
+        writer.writerow([speed, file_name])
 
 
 def _change_pitch_and_speed(sound, speed):

@@ -7,8 +7,8 @@ from os import makedirs
 from os.path import exists, join, basename
 
 from config import config
-from util.text_cleanup import clean_up_text
 from util.logger import log
+from util.text_cleanup import clean_up_text
 
 
 def clean_text_save_to_file():
@@ -18,7 +18,7 @@ def clean_text_save_to_file():
 
     for text_file_path in glob.glob(join(config.clean_data_text_dir(), '*.txt')):
         clean_file_path = join(config.clean_data_cleaned_text_dir(),
-                              basename(text_file_path))
+                               basename(text_file_path))
 
         if exists(clean_file_path):
             continue
@@ -30,6 +30,7 @@ def clean_text_save_to_file():
         open(clean_file_path, 'w+').write(text)
         log.info("File written: %s" % text_file_path)
         log.info("Cleaned Text: %s" % text)
+
 
 if __name__ == '__main__':
     clean_text_save_to_file()

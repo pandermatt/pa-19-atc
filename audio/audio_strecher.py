@@ -4,7 +4,6 @@ import os
 import librosa
 import numpy as np
 from pydub import AudioSegment
-from pydub.effects import speedup
 from pydub.utils import which
 
 from config import config
@@ -44,11 +43,15 @@ def _convert_audio(audio_file_path, speed):
 
     log.info(f'Convert {file_name} with {speed}')
     sound = AudioSegment.from_file(audio_file_path, format="wav")
-    sound = speedup(sound, playback_speed=speed)
+    sound = _change_pitch_and_speed(sound, speed)
 
-    # 44.1k - standard audio CD
-    sound = sound.set_frame_rate(44100)
+    sound = sound.set_frame_rate(16000)
     sound.export(output_path, format="wav")
+
+
+def _change_pitch_and_speed(sound, speed):
+    new_sample_rate = int(sound.frame_rate * speed)
+    return sound._spawn(sound.raw_data, overrides={'frame_rate': new_sample_rate})
 
 
 def _convert_audio_with_normalisation(audio_file_path, speed):

@@ -44,10 +44,10 @@ class Config:
         return join(self.clean_data_dir(), 'cleaned_text')
 
     def train_data_dir(self):
-        return _get_or_create(join(self.data_dir(),'train_data_augmented'))
+        return _get_or_create(join(self.data_dir(), 'train_data_augmented'))
 
     def train_data_audio_dir(self, suffix=''):
-        return _get_or_create(join(self.train_data_dir(), 'audio_files_simple'+suffix))
+        return _get_or_create(join(self.train_data_dir(), 'audio_files_simple' + suffix))
 
     def test_data_dir(self):
         return _get_or_create(join(self.data_dir(), 'test'))

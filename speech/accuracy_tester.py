@@ -10,6 +10,8 @@ from config import config
 from util.logger import log
 from word_error_rate.word_error_rate import word_error_rate
 
+from util.text_cleanup import clean_up_text
+
 REPLACE_MAP = {
     '0': 'zero',
     '1': 'one',
@@ -28,7 +30,7 @@ REPLACE_MAP = {
 STOP_WORDS = ['', 'ah']
 
 
-def determine_accuracy():
+def determine_accuracy(cleanUpText = False):
     if not exists(config.provider_accuracy_dir()):
         log.exit(f'Provider data does not exist: {config.provider_accuracy_dir()}')
 
@@ -43,8 +45,12 @@ def determine_accuracy():
         i += 1
         original_text_file_path = join(config.clean_data_text_dir(), basename(custom_text_file_path))
 
-        original_words = extract_clean_words(open(original_text_file_path, 'r').read())
-        custom_words = extract_clean_words(open(custom_text_file_path, 'r').read())
+        if cleanUpText:
+            original_words = extract_clean_words(clean_up_text(open(original_text_file_path, 'r').read()))
+            custom_words = extract_clean_words(clean_up_text(open(custom_text_file_path, 'r').read()))
+        else:
+            original_words = extract_clean_words(open(original_text_file_path, 'r').read())
+            custom_words = extract_clean_words(open(custom_text_file_path, 'r').read())
 
         accuracy_info.append(f'{basename(custom_text_file_path)}\t{word_error_rate(original_words, custom_words)}')
     return accuracy_info

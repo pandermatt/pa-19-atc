@@ -64,6 +64,15 @@ class Config:
     def provider_accuracy_file(self):
         return _get_or_create(join(self.accuracy_dir(), f'{self.provider()}_accuracy.txt'))
 
+    def keyword_dir(self):
+        return _get_or_create(join(self.data_dir(), 'keyword'))
+
+    def original_keyword_dir(self):
+        return _get_or_create(join(self.keyword_dir(), 'original'))
+
+    def compare_keyword_dir(self):
+        return _get_or_create(join(self.keyword_dir(), 'compare'))
+
     def provider(self):
         return 'microsoft_custom_speech'
 

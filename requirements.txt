@@ -1,3 +1,4 @@
+pandas
 librosa
 numpy
 pydub

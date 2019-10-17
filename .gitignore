@@ -10,3 +10,4 @@ data/*/*/*.txt
 data/microsoft_custom_speech
 *.png
 *.csv
+data/train_data_augmented

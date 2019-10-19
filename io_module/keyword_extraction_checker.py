@@ -1,6 +1,7 @@
 import csv
 import os
 from collections import defaultdict
+from shutil import copyfile
 
 import pandas as pd
 
@@ -25,7 +26,7 @@ def check_error(df_keywords):
         text = open(compare_file, "r").read()
 
         count_airline_dict[row[2]] += 1
-        if row[2] not in text:
+        if row[2].lower() not in text.lower():
             log.info(f'{row[2]} -> {text}')
             error_airline_dict[row[2]] += 1
 
@@ -38,8 +39,37 @@ def check_error(df_keywords):
             writer.writerow([airline, total, error, error * 1.0 / total])
 
 
+def prepare_audio(df_keywords):
+    airline_to_prepare = ['Airfrans', 'Swissair', 'Speedbird', 'Hapag Lloyd', 'Tarom']
+    output_file = os.path.join(config.keyword_dir(), 'Trans.txt')
+    count_airline_dict = defaultdict(int)
+
+    if os.path.exists(output_file):
+        log.info(f'already exists... {output_file}')
+        return
+
+    for index, row in df_keywords.iterrows():
+        if pd.isnull(row[2]):
+            continue
+
+        if row[2] not in airline_to_prepare:
+            continue
+
+        count_airline_dict[row[2]] += 1
+        if count_airline_dict[row[2]] > 5:
+            continue
+
+        audio_file = os.path.basename(row[0]).replace('.txt', '.wav')
+
+        copyfile(os.path.join(config.clean_data_audio_dir(), audio_file),
+                 os.path.join(config.audio_keyword_dir(), audio_file))
+        with open(output_file, "a") as file:
+            file.write(f'{row[0]}\t{row[2]}\n')
+
+
 if __name__ == '__main__':
     file = os.path.join(config.keyword_dir(), 'result_keyword_sorted.csv')
     df_keywords = pd.read_csv(file, sep=",", header=None)
 
     check_error(df_keywords)
+    prepare_audio(df_keywords)

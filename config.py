@@ -73,6 +73,9 @@ class Config:
     def compare_keyword_dir(self):
         return _get_or_create(join(self.keyword_dir(), 'compare'))
 
+    def audio_keyword_dir(self):
+        return _get_or_create(join(self.keyword_dir(), 'audio'))
+
     def provider(self):
         return 'microsoft_custom_speech'
 

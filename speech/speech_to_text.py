@@ -28,7 +28,10 @@ def speech_to_text(audio_file_path):
         log.warning(f'{audio_file_path} had an HTTP Request failure')
         return
     if data.get('RecognitionStatus') != 'Success':
-        log.warning(f'{audio_file_path} has an empty transcript, RecognitionStatus = ' + data.get('RecognitionStatus'))
+        logwarning = f'{audio_file_path} has an empty transcript'
+        if data.get('RecognitionStatus') is not None:
+            logwarning += ', RecognitionStatus = ' + data.get('RecognitionStatus')
+        log.warning(logwarning)
         return
 
     transcript = data.get('NBest')[0].get('Display')

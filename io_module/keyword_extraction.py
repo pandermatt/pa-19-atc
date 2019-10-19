@@ -47,15 +47,16 @@ def extract_airline(airlines, airports):
 
 if __name__ == '__main__':
     df_airlines = pd.read_csv('https://raw.githubusercontent.com/jpatokal/openflights/master/data/airlines.dat',
-                     sep=",",
-                     header=None)
+                              sep=",",
+                              header=None)
     airlines = []
     for idx, row in df_airlines.iterrows():
         airlines.append(row[1])
 
-    df_airports = pd.read_csv('https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports-extended.dat',
-                     sep=",",
-                     header=None)
+    df_airports = pd.read_csv(
+        'https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports-extended.dat',
+        sep=",",
+        header=None)
     airports = []
     for idx, row in df_airports.iterrows():
         airports.append(row[1])

@@ -58,27 +58,31 @@ def prepare_audio(df_keywords):
             continue
 
         count_airline_dict[row[2]] += 1
-        if count_airline_dict[row[2]] > 5:
+        if count_airline_dict[row[2]] > 10:
             continue
 
         audio_file = os.path.basename(row[0]).replace('.txt', '.wav')
+        output_audio_file_path = os.path.join(config.audio_keyword_dir(), audio_file)
 
-        copyfile(os.path.join(config.clean_data_audio_dir(), audio_file),
-                 os.path.join(config.audio_keyword_dir(), audio_file))
+        if not os.path.exists(output_audio_file_path):
+            log.info(f'copy {audio_file}')
+            copyfile(os.path.join(config.clean_data_audio_dir(), audio_file),
+                     output_audio_file_path)
+
+            sound_file = AudioSegment.from_wav(os.path.join(config.clean_data_audio_dir(), audio_file))
+            audio_chunks = split_on_silence(sound_file,
+                                            # must be silent for at least half a second
+                                            min_silence_len=250,
+                                            # consider it silent if quieter than -16 dBFS
+                                            silence_thresh=-30
+                                            )
+            for i, chunk in enumerate(audio_chunks):
+                out_file = f'{audio_file}chunk{i}.wav'
+                out_path = os.path.join(config.audio_keyword_dir(), out_file)
+                chunk.export(out_path, format="wav")
+
         with open(output_file, "a") as file:
             file.write(f'{audio_file}\t{row[2]}\n')
-
-        sound_file = AudioSegment.from_wav(os.path.join(config.clean_data_audio_dir(), audio_file))
-        audio_chunks = split_on_silence(sound_file,
-                                        # must be silent for at least half a second
-                                        min_silence_len=250,
-                                        # consider it silent if quieter than -16 dBFS
-                                        silence_thresh=-30
-                                        )
-        for i, chunk in enumerate(audio_chunks):
-            out_file = f'{audio_file}chunk{i}.wav'
-            out_path = os.path.join(config.audio_keyword_dir(), out_file)
-            chunk.export(out_path, format="wav")
 
 
 if __name__ == '__main__':

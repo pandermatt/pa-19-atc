@@ -66,7 +66,7 @@ def prepare_audio(df_keywords):
         copyfile(os.path.join(config.clean_data_audio_dir(), audio_file),
                  os.path.join(config.audio_keyword_dir(), audio_file))
         with open(output_file, "a") as file:
-            file.write(f'{row[0]}\t{row[2]}\n')
+            file.write(f'{audio_file}\t{row[2]}\n')
 
         sound_file = AudioSegment.from_wav(os.path.join(config.clean_data_audio_dir(), audio_file))
         audio_chunks = split_on_silence(sound_file,

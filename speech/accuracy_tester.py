@@ -156,4 +156,4 @@ if __name__ == '__main__':
     for trans in transcripts:
         prefix = trans["prefix"]
         write_to_accuracy_file(determine_accuracy(cleanup, prefix), outputprefix + prefix)
-        acc_inspect.plot(acc_inspect.calculate_accuracy(outputprefix + prefix).values(), outputprefix + prefix)
+        acc_inspect.plot(acc_inspect.calculate_accuracy(outputprefix + prefix).values(), outputprefix + prefix, trans['title_suffix'])

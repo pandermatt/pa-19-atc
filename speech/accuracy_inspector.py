@@ -9,10 +9,10 @@ import pylab
 from config import config
 from util.logger import log
 
-from speech.accuracy_tester import transcripts
+import speech.accuracy_tester as acc_tester
 
 
-def plot(values, prefix=''):
+def plot(values, prefix='', title_suffix=''):
     h = sorted(values)
 
     x_max = 100
@@ -35,7 +35,7 @@ def plot(values, prefix=''):
     }
 
     title = {
-        'microsoft_custom_speech': f'Auswertung Microsoft Custom Speech\nKeyword Augmentation (Mehr Daten)',
+        'microsoft_custom_speech': f'Auswertung Microsoft Custom Speech'+title_suffix,
     }
 
     pylab.figure(num=None, figsize=(10, 7), dpi=300, facecolor='white', edgecolor='black')
@@ -91,6 +91,6 @@ if __name__ == '__main__':
     outputprefix = ''
     if cleanup:
         outputprefix = 'cleanup_'
-    for trans in transcripts:
+    for trans in acc_tester.transcripts:
         prefix = outputprefix + trans["prefix"]
-        plot(calculate_accuracy(prefix).values(), prefix)
+        plot(calculate_accuracy(prefix).values(), prefix, trans['title_suffix'])

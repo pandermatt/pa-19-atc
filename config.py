@@ -58,11 +58,20 @@ class Config:
     def accuracy_dir(self):
         return _get_or_create(join(self.data_dir(), 'accuracy'))
 
-    def provider_accuracy_dir(self):
-        return _get_or_create(join(self.data_dir(), 'microsoft_custom_speech'))
+    def provider_accuracy_dir(self, prefix=''):
+        return _get_or_create(join(self.data_dir(), prefix + 'microsoft_custom_speech'))
 
-    def provider_accuracy_file(self):
-        return _get_or_create(join(self.accuracy_dir(), f'{self.provider()}_accuracy.txt'))
+    def provider_accuracy_dir_nocreate(self, prefix=''):
+        return join(self.data_dir(), prefix + 'microsoft_custom_speech')
+
+    def provider_accuracy_file(self, prefix=''):
+        return _get_or_create(join(self.accuracy_dir(), f'{self.provider(prefix)}_accuracy.txt'))
+
+    def provider_accuracy_file_nocreate(self, prefix=''):
+        return join(self.accuracy_dir(), f'{self.provider(prefix)}_accuracy.txt')
+
+    def provider_accuracy_average_file(self, prefix=''):
+        return join(self.accuracy_dir(), f'{self.provider(prefix)}_average.txt')
 
     def keyword_dir(self):
         return _get_or_create(join(self.data_dir(), 'keyword'))
@@ -76,8 +85,8 @@ class Config:
     def audio_keyword_dir(self):
         return _get_or_create(join(self.keyword_dir(), 'audio'))
 
-    def provider(self):
-        return 'microsoft_custom_speech'
+    def provider(self, prefix=''):
+        return prefix+'microsoft_custom_speech'
 
     #############
     # KEYS      #

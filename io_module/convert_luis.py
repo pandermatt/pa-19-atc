@@ -14,10 +14,16 @@ def language_recognition_save_to_file():
                                       _add_suffix(clean_file_path, 'short'))
 
         if exists(result_file_path):
+            log.info(f'already exists... skipping:\t {result_file_path}')
             continue
 
         content = open(clean_file_path).read()
         long, short = analyse_text(content)
+
+        if long.get('error'):
+            log.warning(f'error occurred... skipping:\t {result_file_path}')
+            continue
+
         long = str(long)
         short = str(short)
 

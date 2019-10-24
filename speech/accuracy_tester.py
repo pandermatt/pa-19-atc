@@ -11,6 +11,7 @@ from util.logger import log
 from word_error_rate.word_error_rate import word_error_rate
 
 from util.text_cleanup import clean_up_text
+import speech.accuracy_inspector as acc_inspect
 
 REPLACE_MAP = {
     '0': 'zero',
@@ -30,14 +31,14 @@ REPLACE_MAP = {
 STOP_WORDS = ['', 'ah']
 
 
-def determine_accuracy(cleanUpText = False):
-    if not exists(config.provider_accuracy_dir()):
-        log.exit(f'Provider data does not exist: {config.provider_accuracy_dir()}')
+def determine_accuracy(cleanUpText = False, prefix = ''):
+    if not exists(config.provider_accuracy_dir_nocreate(prefix)):
+        log.exit(f'Provider data does not exist: {config.provider_accuracy_dir(prefix)}')
 
     accuracy_info = []
-    log.info(f'Determining accuracy for {config.provider()}...')
+    log.info(f'Determining accuracy for {config.provider(prefix)}...')
 
-    custom_files = glob.glob(join(config.provider_accuracy_dir(), '*.txt'))
+    custom_files = glob.glob(join(config.provider_accuracy_dir(prefix), '*.txt'))
     i = 0
     for custom_text_file_path in custom_files:
         if i % 1000 == 0:
@@ -117,11 +118,42 @@ def find_5_results_per_percentage_step():
         log.info(f'{v}% word error rate:\n{k}\n')
 
 
-def write_to_accuracy_file(accuracy_info):
-    accuracy_file_path = join(config.accuracy_dir(), f'{config.provider()}_accuracy.txt')
+def write_to_accuracy_file(accuracy_info, prefix=''):
+    accuracy_file_path = join(config.accuracy_dir(), f'{config.provider(prefix)}_accuracy.txt')
     open(accuracy_file_path, 'w+').writelines('\n'.join(accuracy_info))
     open(accuracy_file_path, 'a+').write('\n')
 
+transcripts = [
+    {"prefix": "test_EN_US_",
+     "title_suffix": "\nBasismodell: Englisch (USA)"},
+    {"prefix": "test_EN_UK_",
+     "title_suffix": "\nBasismodell: Englisch (UK)"},
+    {"prefix": "test_EN_Australia_",
+     "title_suffix": "\nBasismodell: Englisch (Australien)"},
+    {"prefix": "test_EN_UK_speed1.1_normal_",
+     "title_suffix": "\nData Augmentation: Speed 1.1 mit Pitch-Normalisierung"},
+    {"prefix": "test_EN_UK_speed1.3_",
+     "title_suffix": "\nData Augmentation: Speed 1.3"},
+    {"prefix": "test_EN_UK_speed1.3_normal_",
+     "title_suffix": "\nData Augmentation: Speed 1.3 mit Pitch-Normalisierung"},
+    {"prefix": "test_EN_UK_speed0.7_",
+     "title_suffix": "\nData Augmentation: Speed 0.7"},
+    {"prefix": "test_EN_UK_random_speed_",
+     "title_suffix": "\nData Augmentation: Zufälliger Speed von 0.7 bis 1.3"},
+    {"prefix": "test_EN_UK_0.01_noise_",
+     "title_suffix": "\nData Augmentation: 0.01 Noise Injection"},
+    {"prefix": "test_EN_UK_keyword_augmentation_",
+     "title_suffix": "\nKeyword Augmentation"},
+    {"prefix": "test_EN_UK_keyword_augmentation_2_",
+     "title_suffix": "\nKeyword Augmentation (Mehr Daten)"}
+]
 
 if __name__ == '__main__':
-    write_to_accuracy_file(determine_accuracy())
+    cleanup = True
+    outputprefix = ''
+    if cleanup:
+        outputprefix = 'cleanup_'
+    for trans in transcripts:
+        prefix = trans["prefix"]
+        write_to_accuracy_file(determine_accuracy(cleanup, prefix), outputprefix + prefix)
+        acc_inspect.plot(acc_inspect.calculate_accuracy(outputprefix + prefix).values(), outputprefix + prefix, trans['title_suffix'])

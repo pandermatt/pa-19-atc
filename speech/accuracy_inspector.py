@@ -9,8 +9,10 @@ import pylab
 from config import config
 from util.logger import log
 
+import speech.accuracy_tester as acc_tester
 
-def plot(values):
+
+def plot(values, prefix='', title_suffix=''):
     h = sorted(values)
 
     x_max = 100
@@ -33,7 +35,7 @@ def plot(values):
     }
 
     title = {
-        'microsoft_custom_speech': f'Auswertung Microsoft Custom Speech',
+        'microsoft_custom_speech': f'Auswertung Microsoft Custom Speech'+title_suffix,
     }
 
     pylab.figure(num=None, figsize=(10, 7), dpi=300, facecolor='white', edgecolor='black')
@@ -47,15 +49,15 @@ def plot(values):
     pylab.legend([f'n = {len(h)}'], loc='upper right')
 
     # save figure
-    pylab.savefig(join(config.accuracy_dir(), f'result_{config.provider()}.png'))
+    pylab.savefig(join(config.accuracy_dir(), f'{config.provider(prefix)}_result.png'))
     pylab.show()
 
 
-def calculate_accuracy():
-    if not exists(config.provider_accuracy_file()):
-        log.exit(f'Accuracy file does not exist: {config.provider_accuracy_file()}')
+def calculate_accuracy(prefix=''):
+    if not exists(config.provider_accuracy_file(prefix)):
+        log.exit(f'Accuracy file does not exist: {config.provider_accuracy_file(prefix)}')
 
-    accuracy_content = open(config.provider_accuracy_file(), 'r+').readlines()
+    accuracy_content = open(config.provider_accuracy_file(prefix), 'r+').readlines()
     accuracy_map = {}
 
     result_distribution = {k: 0 for k in range(0, 101, 20)}
@@ -73,8 +75,22 @@ def calculate_accuracy():
     log.info(result_distribution)
     avg_accuracy = sum(accuracy_map.values()) / len(accuracy_map)
     log.info(f'Average word error rate: {avg_accuracy}')
+    try:
+        f = open(config.provider_accuracy_average_file(prefix), "w")
+    except IOError:
+        print("Cannot open file " + config.provider_accuracy_average_file(prefix))
+    else:
+        with f:
+            data = f'Total files tested: {len(accuracy_map)}\n{result_distribution}\nAverage word error rate: {avg_accuracy}'
+            f.write(data)
     return accuracy_map
 
 
 if __name__ == '__main__':
-    plot(calculate_accuracy().values())
+    cleanup = True
+    outputprefix = ''
+    if cleanup:
+        outputprefix = 'cleanup_'
+    for trans in acc_tester.transcripts:
+        prefix = outputprefix + trans["prefix"]
+        plot(calculate_accuracy(prefix).values(), prefix, trans['title_suffix'])

@@ -6,7 +6,7 @@ import glob
 from os.path import join
 
 from config import config
-from language_recognition.recognition_to_text import analyse_text
+from language_understanding.recognition_to_text import analyse_text
 from speech.speech_to_text import speech_to_text
 from util.text_cleanup import clean_up_text
 from util.logger import log

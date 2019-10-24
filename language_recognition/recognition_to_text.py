@@ -19,7 +19,7 @@ def analyse_text(text):
     intent = data.get('topScoringIntent', {}).get('intent')
     entities = {entity.get('type'): entity.get('entity') for entity in data.get('entities', [])}
 
-    return {'text': text, 'intent': intent, 'entities': entities}
+    return data, {'query': text, 'intent': intent, 'entities': entities}
 
 
 def _send_request(text):
@@ -47,4 +47,6 @@ def _send_request(text):
 
 
 if __name__ == '__main__':
-    print(analyse_text('bonjour topswiss 4578 climb to flight level 310'))
+    long, short = analyse_text('bonjour topswiss 4578 climb to flight level 310')
+    print(long)
+    print(short)

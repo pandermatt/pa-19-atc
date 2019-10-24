@@ -41,7 +41,7 @@ class Config:
         return _get_or_create(join(self.clean_data_audio_dir(), 'custom' + suffix))
 
     def clean_data_cleaned_text_dir(self):
-        return join(self.clean_data_dir(), 'cleaned_text')
+        return _get_or_create(join(self.clean_data_dir(), 'cleaned_text'))
 
     def train_data_dir(self):
         return _get_or_create(join(self.data_dir(), 'train_data_augmented'))
@@ -51,6 +51,12 @@ class Config:
 
     def test_data_dir(self):
         return _get_or_create(join(self.data_dir(), 'test'))
+
+    def test_data_text_dir(self):
+        return _get_or_create(join(self.test_data_dir(), 'text'))
+
+    def test_data_cleaned_text_dir(self):
+        return _get_or_create(join(self.test_data_dir(), 'cleaned_text'))
 
     def test_data_audio_dir(self):
         return _get_or_create(join(self.test_data_dir(), 'audio'))

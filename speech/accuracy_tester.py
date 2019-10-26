@@ -31,7 +31,7 @@ REPLACE_MAP = {
 STOP_WORDS = ['', 'ah']
 
 
-def determine_accuracy(cleanUpText = False, prefix = ''):
+def determine_accuracy(cleanUpText = False, prefix = '', filesuffix=''):
     if not exists(config.provider_accuracy_dir_nocreate(prefix)):
         log.exit(f'Provider data does not exist: {config.provider_accuracy_dir(prefix)}')
 
@@ -44,7 +44,10 @@ def determine_accuracy(cleanUpText = False, prefix = ''):
         if i % 1000 == 0:
             log.info(f'{i}/{len(custom_files)}')
         i += 1
+        print(custom_text_file_path)
         original_text_file_path = join(config.clean_data_text_dir(), basename(custom_text_file_path))
+        if filesuffix != '':
+            original_text_file_path = original_text_file_path.replace(filesuffix + ".txt", ".txt")
 
         if cleanUpText:
             original_words = extract_clean_words(clean_up_text(open(original_text_file_path, 'r').read()))
@@ -123,7 +126,13 @@ def write_to_accuracy_file(accuracy_info, prefix=''):
     open(accuracy_file_path, 'w+').writelines('\n'.join(accuracy_info))
     open(accuracy_file_path, 'a+').write('\n')
 
+noisenumer = str(0.03)
 transcripts = [
+    {"prefix": "test_noise-" + noisenumer + "_",
+     "filesuffix": "_noise-" + noisenumer,
+     "title_suffix": "\nVerrauschte Test Daten: " + noisenumer + " Noise Injection"},
+]
+"""
     {"prefix": "test_EN_US_",
      "title_suffix": "\nBasismodell: Englisch (USA)"},
     {"prefix": "test_EN_UK_",
@@ -146,7 +155,7 @@ transcripts = [
      "title_suffix": "\nKeyword Augmentation"},
     {"prefix": "test_EN_UK_keyword_augmentation_2_",
      "title_suffix": "\nKeyword Augmentation (Mehr Daten)"}
-]
+]"""
 
 if __name__ == '__main__':
     cleanup = True
@@ -155,5 +164,5 @@ if __name__ == '__main__':
         outputprefix = 'cleanup_'
     for trans in transcripts:
         prefix = trans["prefix"]
-        write_to_accuracy_file(determine_accuracy(cleanup, prefix), outputprefix + prefix)
-        acc_inspect.plot(acc_inspect.calculate_accuracy(outputprefix + prefix).values(), outputprefix + prefix, trans['title_suffix'])
+        write_to_accuracy_file(determine_accuracy(cleanup, prefix, trans["filesuffix"]), outputprefix + prefix)
+        #acc_inspect.plot(acc_inspect.calculate_accuracy(outputprefix + prefix).values(), outputprefix + prefix, trans['title_suffix'])

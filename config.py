@@ -41,7 +41,7 @@ class Config:
         return _get_or_create(join(self.clean_data_audio_dir(), 'custom' + suffix))
 
     def clean_data_cleaned_text_dir(self):
-        return join(self.clean_data_dir(), 'cleaned_text')
+        return _get_or_create(join(self.clean_data_dir(), 'cleaned_text'))
 
     def train_data_dir(self):
         return _get_or_create(join(self.data_dir(), 'train_data_augmented'))
@@ -52,6 +52,12 @@ class Config:
     def test_data_dir(self):
         return _get_or_create(join(self.data_dir(), 'test'))
 
+    def test_data_text_dir(self):
+        return _get_or_create(join(self.test_data_dir(), 'text'))
+
+    def test_data_cleaned_text_dir(self):
+        return _get_or_create(join(self.test_data_dir(), 'cleaned_text'))
+
     def test_data_audio_dir(self, suffix="", subdir=""):
         if subdir != "":
             return join(join(self.test_data_dir(), 'audio' + suffix), subdir)
@@ -60,6 +66,12 @@ class Config:
 
     def accuracy_dir(self):
         return _get_or_create(join(self.data_dir(), 'accuracy'))
+
+    def language_understanding_dir(self):
+        return _get_or_create(join(self.data_dir(), 'language_understanding'))
+
+    def language_understanding_result_dir(self):
+        return _get_or_create(join(self.language_understanding_dir(), 'result'))
 
     def provider_accuracy_dir(self, prefix=''):
         return _get_or_create(join(self.data_dir(), prefix + 'microsoft_custom_speech'))

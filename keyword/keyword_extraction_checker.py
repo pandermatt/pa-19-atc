@@ -70,12 +70,7 @@ def prepare_audio(df_keywords):
                      output_audio_file_path)
 
             sound_file = AudioSegment.from_wav(os.path.join(config.clean_data_audio_dir(), audio_file))
-            audio_chunks = split_on_silence(sound_file,
-                                            # must be silent for at least half a second
-                                            min_silence_len=250,
-                                            # consider it silent if quieter than -16 dBFS
-                                            silence_thresh=-30
-                                            )
+            audio_chunks = split_on_silence(sound_file, min_silence_len=250, silence_thresh=-30)
             for i, chunk in enumerate(audio_chunks):
                 out_file = f'{audio_file}chunk{i}.wav'
                 out_path = os.path.join(config.audio_keyword_dir(), out_file)

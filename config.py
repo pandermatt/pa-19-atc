@@ -52,8 +52,11 @@ class Config:
     def test_data_dir(self):
         return _get_or_create(join(self.data_dir(), 'test'))
 
-    def test_data_audio_dir(self):
-        return _get_or_create(join(self.test_data_dir(), 'audio'))
+    def test_data_audio_dir(self, suffix="", subdir=""):
+        if subdir != "":
+            return join(join(self.test_data_dir(), 'audio' + suffix), subdir)
+        else:
+            return _get_or_create(join(self.test_data_dir(), 'audio' + suffix))
 
     def accuracy_dir(self):
         return _get_or_create(join(self.data_dir(), 'accuracy'))

@@ -44,7 +44,6 @@ def determine_accuracy(cleanUpText = False, prefix = '', filesuffix=''):
         if i % 1000 == 0:
             log.info(f'{i}/{len(custom_files)}')
         i += 1
-        print(custom_text_file_path)
         original_text_file_path = join(config.clean_data_text_dir(), basename(custom_text_file_path))
         if filesuffix != '':
             original_text_file_path = original_text_file_path.replace(filesuffix + ".txt", ".txt")
@@ -165,4 +164,4 @@ if __name__ == '__main__':
     for trans in transcripts:
         prefix = trans["prefix"]
         write_to_accuracy_file(determine_accuracy(cleanup, prefix, trans["filesuffix"]), outputprefix + prefix)
-        #acc_inspect.plot(acc_inspect.calculate_accuracy(outputprefix + prefix).values(), outputprefix + prefix, trans['title_suffix'])
+        acc_inspect.plot(acc_inspect.calculate_accuracy(outputprefix + prefix).values(), outputprefix + prefix, trans['title_suffix'])

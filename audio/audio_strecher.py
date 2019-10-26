@@ -11,7 +11,8 @@ from pydub.utils import which
 from config import config
 from util.logger import log
 
-AUDIO_DIR = config.train_data_audio_dir
+#AUDIO_DIR = config.train_data_audio_dir
+AUDIO_DIR = config.test_data_audio_dir
 
 
 def convert_audio_files():
@@ -22,15 +23,20 @@ def convert_audio_files():
 
     for original_audio_file_path in glob.glob(os.path.join(AUDIO_DIR(), '*.wav')):
         try:
-            for speed in [0.9, 1.1, 1.3]:
+            for speed in []:
                 _convert_audio(original_audio_file_path, speed)
 
-            for speed in [1.1]:
+            for speed in []:
                 _convert_audio_with_normalisation(original_audio_file_path, speed)
 
             _convert_audio_with_noise_injection(original_audio_file_path, 0.01)
+            _convert_audio_with_noise_injection(original_audio_file_path, 0.03)
+            _convert_audio_with_noise_injection(original_audio_file_path, 0.05)
+            _convert_audio_with_noise_injection(original_audio_file_path, 0.07)
+            _convert_audio_with_noise_injection(original_audio_file_path, 0.09)
+            _convert_audio_with_noise_injection(original_audio_file_path, 0.1)
 
-            _convert_audio_with_random_speed(original_audio_file_path, random.choice(np.arange(0.7, 1.3, 0.1)))
+            #_convert_audio_with_random_speed(original_audio_file_path, random.choice(np.arange(0.7, 1.3, 0.1)))
         except:
             error_files.append(original_audio_file_path)
             log.warning(f'Could not convert {original_audio_file_path}')

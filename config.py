@@ -73,6 +73,9 @@ class Config:
     def language_understanding_result_dir(self):
         return _get_or_create(join(self.language_understanding_dir(), 'result'))
 
+    def language_understanding_result_json_dir(self):
+        return _get_or_create(join(self.language_understanding_dir(), 'result_json'))
+
     def provider_accuracy_dir(self, prefix=''):
         return _get_or_create(join(self.data_dir(), prefix + 'microsoft_custom_speech'))
 

@@ -1,3 +1,5 @@
+scipy
+matplotlib
 pandas
 librosa
 numpy

@@ -6,4 +6,4 @@ numpy
 pydub
 PyYAML
 requests
-text2digits
+text2digits>=0.0.6

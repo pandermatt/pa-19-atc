@@ -48,9 +48,6 @@ REPLACE_MAP = {
 
 
 def clean_up_text(text):
-    # Remove infinity from text
-    text = re.compile('infinity', re.IGNORECASE).sub('***', text)
-
     t2n = Text2Digits()
     text = t2n.convert(text)
 

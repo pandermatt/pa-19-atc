@@ -29,7 +29,7 @@ def _send_request(text):
             params={
                 "staging": "true",
                 "verbose": "true",
-                "timezoneOffset": "-420",
+                "timezoneOffset": "0",
                 "subscription-key": config.microsoft_luis_subscription_key(),
                 "q": text,
             },

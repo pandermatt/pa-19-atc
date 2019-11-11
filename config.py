@@ -77,7 +77,10 @@ class Config:
         return _get_or_create(join(self.language_understanding_dir(), 'result_json'))
 
     def language_understanding_result_csv_dir(self):
-        return _get_or_create(join(self.language_understanding_dir(), 'result_csv'))
+        return _get_or_create(join(self.language_understanding_dir(), 'compare_to_result_csv'))
+
+    def regex_markup_language_dir(self):
+        return _get_or_create(join(self.data_dir(), 'rml_results'))
 
     def provider_accuracy_dir(self, prefix=''):
         return _get_or_create(join(self.data_dir(), prefix + 'microsoft_custom_speech'))

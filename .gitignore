@@ -12,3 +12,4 @@ data/microsoft_custom_speech
 *.csv
 data/train_data_augmented
 *.json
+*.xml

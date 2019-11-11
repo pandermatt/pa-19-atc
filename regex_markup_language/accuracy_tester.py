@@ -6,12 +6,22 @@ from language_understanding.accuracy_tester import determine_accuracy
 from util.logger import log
 
 
+def find_or_default(child, param):
+    attr = child.find(param)
+    if attr is not None:
+        return attr.text
+    return None
+
+
 def convert_rml_and_determine_accuracy(suffix="", override=False):
     tree = XML.parse(join(config.regex_markup_language_dir(), f'result{suffix}.xml'))
     root = tree.getroot()
 
     for child in root:
-        filename = child.find('filename').text
+        filename = find_or_default(child, 'filename')
+        if filename is None:
+            continue
+
         result_file_path = join(config.language_understanding_result_dir(suffix='_RML' + suffix),
                                 basename(filename))
 
@@ -19,12 +29,33 @@ def convert_rml_and_determine_accuracy(suffix="", override=False):
             log.info(f'already exists... skipping:\t {result_file_path}')
             continue
 
+        entity = []
+        airline = find_or_default(child, 'airline')
+        flight_level = find_or_default(child, 'flightLevel')
+        flight_number = find_or_default(child, 'flightnumber')
+        intent = find_or_default(child, 'action')
+
+        if airline is not None:
+            entity.append({'entity': airline, 'type': 'airline_name'})
+
+        if flight_level is not None:
+            entity.append({'entity': flight_level, 'type': 'airline_name'})
+
+        if flight_number is not None:
+            entity.append({'entity': flight_number, 'type': 'airline_name'})
+
+        if intent in ['climb to', 'climb']:
+            intent = 'FlightClimb'
+
+        if intent in ['descend']:
+            intent = 'FlightDescend'
+
+        if intent in ['maintain']:
+            intent = 'FlightMaintain'
+
         data = {'query': '',
-                'topScoringIntent': {'intent': child.find('action').text},
-                'entities': [
-                    {'entity': child.find('airline').text, 'type': 'airline_name'},
-                    {'entity': child.find('flightLevel').text, 'type': 'flight_level'},
-                    {'entity': child.find('flightnumber').text, 'type': 'flight_number'}]}
+                'topScoringIntent': {'intent': intent},
+                'entities': entity}
         open(result_file_path, 'w+').write(str(data))
 
         log.info("File written: %s" % result_file_path)
@@ -34,4 +65,4 @@ def convert_rml_and_determine_accuracy(suffix="", override=False):
 
 
 if __name__ == '__main__':
-    convert_rml_and_determine_accuracy(override=False)
+    convert_rml_and_determine_accuracy(override=True)

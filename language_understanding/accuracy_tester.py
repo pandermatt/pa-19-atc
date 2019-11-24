@@ -45,16 +45,16 @@ def determine_accuracy(suffix=""):
         overall_wer_flight_number += word_error_rate(row['flight_number'], entities.get('flight_number', ''))
         overall_wer_flight_level += word_error_rate(row['flight_level'], entities.get('flight_level', ''))
 
-        if row['intent'] == content['topScoringIntent']['intent']:
+        if row['intent'].lower() == content['topScoringIntent']['intent'].lower():
             score += rating
 
-        if row['airline_name'] == entities.get('airline_name', ''):
+        if row['airline_name'].lower() == entities.get('airline_name', '').lower():
             score += rating
 
-        if row['flight_number'] == entities.get('flight_number', ''):
+        if row['flight_number'].lower() == entities.get('flight_number', '').lower():
             score += rating
 
-        if row['flight_level'] == entities.get('flight_level', ''):
+        if row['flight_level'].lower() == entities.get('flight_level', '').lower():
             score += rating
 
         overall_score += score

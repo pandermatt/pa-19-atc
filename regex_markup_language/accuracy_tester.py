@@ -31,7 +31,7 @@ def convert_rml_and_determine_accuracy(suffix="", override=False):
 
         entity = []
         airline = find_or_default(child, 'airline')
-        flight_level = find_or_default(child, 'flightLevel')
+        flight_level = find_or_default(child, 'flightLevelNumber')
         flight_number = find_or_default(child, 'flightnumber')
         intent = find_or_default(child, 'action')
 
@@ -39,10 +39,10 @@ def convert_rml_and_determine_accuracy(suffix="", override=False):
             entity.append({'entity': airline, 'type': 'airline_name'})
 
         if flight_level is not None:
-            entity.append({'entity': flight_level, 'type': 'airline_name'})
+            entity.append({'entity': flight_level, 'type': 'flight_level'})
 
         if flight_number is not None:
-            entity.append({'entity': flight_number, 'type': 'airline_name'})
+            entity.append({'entity': flight_number, 'type': 'flight_number'})
 
         if intent in ['climb to', 'climb']:
             intent = 'FlightClimb'
@@ -54,7 +54,7 @@ def convert_rml_and_determine_accuracy(suffix="", override=False):
             intent = 'FlightMaintain'
 
         data = {'query': '',
-                'topScoringIntent': {'intent': intent},
+                'topScoringIntent': {'intent': intent if intent is not None else "None"},
                 'entities': entity}
         open(result_file_path, 'w+').write(str(data))
 
@@ -65,4 +65,8 @@ def convert_rml_and_determine_accuracy(suffix="", override=False):
 
 
 if __name__ == '__main__':
-    convert_rml_and_determine_accuracy(override=True)
+    # convert_rml_and_determine_accuracy(override=False, suffix="_UK-keyword2")
+    # convert_rml_and_determine_accuracy(override=True, suffix="_UK-keyword2-Fuzzy0.25")
+    convert_rml_and_determine_accuracy(override=False, suffix="_UK-keyword2-Fuzzy0.5")
+    # convert_rml_and_determine_accuracy(override=False, suffix="_UK-keyword2-Fuzzy0.75")
+    # convert_rml_and_determine_accuracy(override=True, suffix="_UK-keyword2-Fuzzy1")

@@ -6,7 +6,10 @@ Voice to speech conversion and evaluation for ATC
 
 - <https://github.com/pandermatt/pa-19-atc>
 - <https://github.com/pandermatt/pa-19-atc-doc>
+- RML: <https://github.zhaw.ch/anderpas/pa-19-atc-rml>
+- Data: <https://github.zhaw.ch/anderpas/pa-19-atc-data>
 - Custom speech portal: <https://speech.microsoft.com/customspeech>
+- LUIS: <https://luis.ai/>
 
 
 ## Developing

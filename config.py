@@ -67,6 +67,9 @@ class Config:
     def accuracy_dir(self):
         return _get_or_create(join(self.data_dir(), 'accuracy'))
 
+    def context_dir(self):
+        return _get_or_create(join(self.data_dir(), 'context'))
+
     def language_understanding_dir(self):
         return _get_or_create(join(self.data_dir(), 'language_understanding'))
 

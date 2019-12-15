@@ -125,36 +125,50 @@ def write_to_accuracy_file(accuracy_info, prefix=''):
     open(accuracy_file_path, 'w+').writelines('\n'.join(accuracy_info))
     open(accuracy_file_path, 'a+').write('\n')
 
-noisenumer = str(0.03)
+noisenumer = str(0.02)
 transcripts = [
+    {"prefix": "test_EN_US_",
+     "filesuffix": "_EN_US_",
+     "title_suffix": "\nBasismodell: Englisch (USA)"},
+    {"prefix": "test_EN_UK_",
+     "filesuffix": "_EN_UK_",
+     "title_suffix": "\nBasismodell: Englisch (UK)"},
+    {"prefix": "test_EN_Australia_",
+     "filesuffix": "_EN_Australia_",
+     "title_suffix": "\nBasismodell: Englisch (Australien)"},
+    {"prefix": "test_EN_UK_speed1.1_normal_",
+     "filesuffix": "",
+     "title_suffix": "\nData Augmentation: Speed 1.1"},
+    {"prefix": "test_EN_UK_speed1.1_",
+     "filesuffix": "",
+     "title_suffix": "\nData Augmentation: Speed 1.1"},
+    {"prefix": "test_EN_UK_speed1.3_",
+     "filesuffix": "",
+     "title_suffix": "\nData Augmentation: Speed 1.3"},
+    {"prefix": "test_EN_UK_speed1.3_normal_",
+     "filesuffix": "",
+     "title_suffix": "\nData Augmentation: Speed 1.3 mit Pitch-Normalisierung"},
+    {"prefix": "test_EN_UK_speed0.7_",
+     "filesuffix": "",
+     "title_suffix": "\nData Augmentation: Speed 0.7"},
+    {"prefix": "test_EN_UK_random_speed_",
+     "filesuffix": "",
+     "title_suffix": "\nData Augmentation: Zufälliger Speed von 0.7 bis 1.3"},
+    {"prefix": "test_EN_UK_0.01_noise_",
+     "filesuffix": "",
+     "title_suffix": "\nData Augmentation: 0.01 Noise Injection"},
+    {"prefix": "test_EN_UK_keyword_augmentation_",
+     "filesuffix": "",
+     "title_suffix": "\nKeyword Augmentation (1. Durchlauf)"},
+    {"prefix": "test_EN_UK_keyword_augmentation_2_",
+     "filesuffix": "",
+     "title_suffix": "\nKeyword Augmentation (2. Durchlauf)"}
+]
+"""
     {"prefix": "test_noise-" + noisenumer + "_",
      "filesuffix": "_noise-" + noisenumer,
      "title_suffix": "\nVerrauschte Test Daten: " + noisenumer + " Noise Injection"},
-]
 """
-    {"prefix": "test_EN_US_",
-     "title_suffix": "\nBasismodell: Englisch (USA)"},
-    {"prefix": "test_EN_UK_",
-     "title_suffix": "\nBasismodell: Englisch (UK)"},
-    {"prefix": "test_EN_Australia_",
-     "title_suffix": "\nBasismodell: Englisch (Australien)"},
-    {"prefix": "test_EN_UK_speed1.1_normal_",
-     "title_suffix": "\nData Augmentation: Speed 1.1 mit Pitch-Normalisierung"},
-    {"prefix": "test_EN_UK_speed1.3_",
-     "title_suffix": "\nData Augmentation: Speed 1.3"},
-    {"prefix": "test_EN_UK_speed1.3_normal_",
-     "title_suffix": "\nData Augmentation: Speed 1.3 mit Pitch-Normalisierung"},
-    {"prefix": "test_EN_UK_speed0.7_",
-     "title_suffix": "\nData Augmentation: Speed 0.7"},
-    {"prefix": "test_EN_UK_random_speed_",
-     "title_suffix": "\nData Augmentation: Zufälliger Speed von 0.7 bis 1.3"},
-    {"prefix": "test_EN_UK_0.01_noise_",
-     "title_suffix": "\nData Augmentation: 0.01 Noise Injection"},
-    {"prefix": "test_EN_UK_keyword_augmentation_",
-     "title_suffix": "\nKeyword Augmentation"},
-    {"prefix": "test_EN_UK_keyword_augmentation_2_",
-     "title_suffix": "\nKeyword Augmentation (Mehr Daten)"}
-]"""
 
 if __name__ == '__main__':
     cleanup = True

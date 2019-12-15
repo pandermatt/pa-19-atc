@@ -19,8 +19,8 @@ opacity = 0.8
 # csfont = {'fontname':'CMU Serif'}
 # hfont = {'fontname':'CMU Serif'}
 
-plt.title('title',**csfont)
-plt.xlabel('xlabel', **hfont)
+# plt.title('title',**csfont)
+# plt.xlabel('xlabel', **hfont)
 
 plt.bar(index, KER, bar_width,
         alpha=opacity,

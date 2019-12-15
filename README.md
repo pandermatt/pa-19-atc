@@ -29,7 +29,7 @@ cp application.example.yml application.yml
 
 Fill in all your keys
 
-If you want to change the directory structure or modify the env keys, you can do so in `config.py`
+If you want to change the directory structure or modify the environment variables, you can do so in `config.py`
 
 ### Packages
 ```

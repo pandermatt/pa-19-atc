@@ -16,7 +16,7 @@ def plot(values, prefix='', title_suffix=''):
     h = sorted(values)
 
     x_max = 100
-    y_max = 500
+    y_max = 700
     x_step = 10
     y_step = 100
 
@@ -39,6 +39,7 @@ def plot(values, prefix='', title_suffix=''):
     }
 
     pylab.figure(num=None, figsize=(10, 7), dpi=300, facecolor='white', edgecolor='black')
+    pylab.figure(num=None, figsize=(10, 6), dpi=300, facecolor='white', edgecolor='black')
     pylab.rcParams.update({'font.size': 18})
     pylab.hist(x=h, histtype='bar', bins=data_interval, rwidth=0.95)
     pylab.title(title.get(config.provider()))
@@ -83,8 +84,21 @@ def calculate_accuracy(prefix=''):
         with f:
             data = f'Total files tested: {len(accuracy_map)}\n{result_distribution}\nAverage word error rate: {avg_accuracy}'
             f.write(data)
+
+    printWERThreshold(accuracy_map);
+
     return accuracy_map
 
+def printWERThreshold(accuracy_map):
+    h = sorted(accuracy_map.values())
+    log.info("\nWER (%)"
+        + "\n0        %d" % (len([x for x in h if x == 0]))
+        + "\n>0-20    %d" % (len([x for x in h if x > 0 and x <= 20]))
+        + "\n>20-40   %d" % (len([x for x in h if x > 20 and x <= 40]))
+        + "\n>40-60   %d" % (len([x for x in h if x > 40 and x <= 60]))
+        + "\n>60-80   %d" % (len([x for x in h if x > 60 and x <= 80]))
+        + "\n>80-100  %d" % (len([x for x in h if x > 80 and x <= 100]))
+        + "\n>80      %d" % (len([x for x in h if x > 80])))
 
 if __name__ == '__main__':
     cleanup = True
@@ -93,4 +107,5 @@ if __name__ == '__main__':
         outputprefix = 'cleanup_'
     for trans in acc_tester.transcripts:
         prefix = outputprefix + trans["prefix"]
+        log.info(prefix)
         plot(calculate_accuracy(prefix).values(), prefix, trans['title_suffix'])

@@ -125,7 +125,7 @@ def write_to_accuracy_file(accuracy_info, prefix=''):
     open(accuracy_file_path, 'w+').writelines('\n'.join(accuracy_info))
     open(accuracy_file_path, 'a+').write('\n')
 
-noisenumer = str(0.02)
+"""
 transcripts = [
     {"prefix": "test_EN_US_",
      "filesuffix": "_EN_US_",
@@ -165,6 +165,31 @@ transcripts = [
      "title_suffix": "\nKeyword Augmentation (2. Durchlauf)"}
 ]
 """
+transcripts = [
+    {"prefix": "test_noise-0.01_",
+     "filesuffix": "_noise-0.01",
+     "title_suffix": "\nVerrauschte Test Daten: 0.01 Noise Injection"},
+    {"prefix": "test_noise-0.02_",
+     "filesuffix": "_noise-0.02",
+     "title_suffix": "\nVerrauschte Test Daten: 0.02 Noise Injection"},
+    {"prefix": "test_noise-0.03_",
+     "filesuffix": "_noise-0.03",
+     "title_suffix": "\nVerrauschte Test Daten: 0.03 Noise Injection"},
+    {"prefix": "test_noise-0.05_",
+     "filesuffix": "_noise-0.05",
+     "title_suffix": "\nVerrauschte Test Daten: 0.05 Noise Injection"},
+    {"prefix": "test_noise-0.07_",
+     "filesuffix": "_noise-0.07",
+     "title_suffix": "\nVerrauschte Test Daten: 0.07 Noise Injection"},
+    {"prefix": "test_noise-0.09_",
+     "filesuffix": "_noise-0.09",
+     "title_suffix": "\nVerrauschte Test Daten: 0.09 Noise Injection"},
+    {"prefix": "test_noise-0.1_",
+     "filesuffix": "_noise-0.1",
+     "title_suffix": "\nVerrauschte Test Daten: 0.1 Noise Injection"},
+]
+"""
+noisenumer = str(0.02)
     {"prefix": "test_noise-" + noisenumer + "_",
      "filesuffix": "_noise-" + noisenumer,
      "title_suffix": "\nVerrauschte Test Daten: " + noisenumer + " Noise Injection"},

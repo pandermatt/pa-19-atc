@@ -2,6 +2,21 @@
 
 Voice to speech conversion and evaluation for ATC
 
+> Nowadays pilots and Air Traﬃc Control Operator (ATCO) are assisted by various electronic and technical systems, for example in the form of collision prevention or landing assistance.
+> Nevertheless, due to the ever-increasing amount of air traffic, their work becomes progressively more hectic and demanding and the most important form of communication is still carried out with the help of radio technology.
+> The biggest problems of this communication method are the poor transmission quality of the radio signal as well as the varying pronunciations and accents of the speakers.
+> These factors can lead to misunderstandings, which could have serious consequences.
+> This project is a continuation of a previous bachelor thesis, which examined various automatic speech recognition services for their performance in relation to these radio messages.
+> The aim of this project is to determine to what extent the Speech-To-Text service of Microsoft, called Custom Speech, can be improved.
+> Furthermore, the Microsoft service, called Language Understanding (LUIS), and the Regex Markup Language (RML) software are compared to each other regarding the extraction of the data required for further processing and to inspect the context of the existing Air Traﬃc Control (ATC) radio messages.
+> With the Microsoft Custom Speech service, it turns out that conventional techniques for data augmentation did not contribute to the improvement of the models and that the performance of the model using noisy radio messages is not optimal.
+> With regards to LUIS, the extraction of the important keywords already works well, but the Regex approach using RML performs better with the data at hand.
+> Further, LUIS does not offer the possibility to include a context to check the ATC radio messages. Therefore, only the RML software is evaluated.
+> As long as the recognized keywords for the context check do not deviate strongly from the expected value, the context can be checked and corrected by a fuzzy search.
+> Based on the results, there is potential for further application of automatic speech recognition in the ATC environment.
+> Nevertheless, the Speech-To-Text model needs further improvement before this system can work reliably.
+
+
 ## Important Links
 
 - <https://github.com/pandermatt/pa-19-atc>

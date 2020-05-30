@@ -62,6 +62,6 @@ If you want to change the directory structure or modify the environment variable
 ```
 
 # Contributors
-![](https://avatars2.githubusercontent.com/u/20790833?s=20) Pascal Andermatt
+![](https://avatars2.githubusercontent.com/u/20790833?s=20) [Pascal Andermatt](https://github.com/pandermatt)
 
-![](https://avatars0.githubusercontent.com/u/43876424?s=20) Jennifer Schürch
+![](https://avatars0.githubusercontent.com/u/43876424?s=20) [Jennifer Schürch](https://github.com/jschuerch)
